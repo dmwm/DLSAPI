@@ -1,0 +1,85 @@
+#     $Id: README,v 1.4 2008/06/04 10:03:50 delgadop Exp $
+
+The code in the DLS cvs module is related to the
+Data Location Service (DLS). Please check the
+DLS Twiki at:
+https://twiki.cern.ch/twiki/bin/view/CMS/DLS
+
+The code in this module includes a protype DLS
+server and API/CLI clients for this and other
+types of DLS servers (with different external
+back-ends). There is also testing code and
+documentation.
+
+Please, always refer to the aforementioned
+Twiki, which should give you more
+up-to-date information (including which type
+of client you need to use).
+
+The most used client today (Feb 2008) is the  
+DBS-based. PhEDEx-based should become relevant
+in the near future. Client code for both is
+totally contained within the DLS/Client/LFCClient/
+subdirectory, so you will be probably interested
+in checking the README file therein.
+
+The instructions that follow indicate how to
+use the old MySQL-based DLS prototype.
+For client installations use the Makefile
+under DLS/Client or DLS/Client/LFCClient/, 
+but note that this not include any setup
+of possible dependencies.
+
+
+#================================================
+#   DLS Server Prototype 0 (Giovanni Ciraolo)   #
+#================================================
+# Sever code:
+ Server/SimpleServer/
+# Client code:
+ Client/SimpleClient/
+
+Ver 0.0:
+* Support up to 120 Thread
+* Transacion support
+* Easy Installation Tool
+
+INSTALLATION:
+
+ 1. Requirements
+
+   * mysql server ver>= 4.0.1
+   * MySQL-python-1.2.0
+   * Mysql Administration privileges
+   * pyton >= 2.2 (default SLC304)
+
+ 2. Create a new MySQL database
+
+ Server/SimpleServer/dls-create --user root --passwd "" --host localhost --database dls --dlsuser dls --dlspasswd dls --verbose
+
+ This create and populate  new Mysql dls database with user 'dls' indentified by password 'dls'
+
+ 3. Start a dls server
+
+ Server/SimpleServer/dls-server  --host localhost --host_db localhost --user dls --passwd dls --database dls --num_thread 2
+
+ This start a dls server with 2 Client Thread on default port 18080
+ 
+
+EXAMPLES from a client:                                                                                                 
+- Add a Replica:
+
+ dls-add-replica --host localhost --datablock datablock1 --se grid001.fi.infn.it --port 18080
+
+- Show list of datablocks  in grid001.fi,infn.it :
+
+ dls-get-datablock --se grid001.fi.infn.it --host localhost
+
+- Show list of se that stores datablock1 :
+
+ dls-get-se --datablock datablock1 --host localhost
+
+- Remove a replica:
+
+ dls-remove-replica --host localhost --datablock datablock1 --se grid001.fi.infn.it --port 18080
+
